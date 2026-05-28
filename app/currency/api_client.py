@@ -21,5 +21,7 @@ class CurrencyApiClient(CurrencyProvider):
             logger.info("Fetching latest currency prices")
             response = await client.get(self.base_url, params=params)
             response.raise_for_status()
-            logger.info("Currency API responded with status_code=%s", response.status_code)
+            logger.info(
+                "Currency API responded with status_code=%s", response.status_code
+            )
             return response.json()
