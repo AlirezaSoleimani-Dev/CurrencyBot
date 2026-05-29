@@ -3,7 +3,6 @@ import logging
 
 from app.currency.interfaces import CurrencyProvider
 
-
 logger = logging.getLogger(__name__)
 
 
