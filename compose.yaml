@@ -1,0 +1,16 @@
+services:
+  currency-bot:
+    build: .
+    image: currency-bot:latest
+    container_name: currency-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      TELEGRAM_SESSION: /data/currency_bot
+      HISTORY_CACHE_DB: /data/history.sqlite3
+    volumes:
+      - currency-bot-data:/data
+
+volumes:
+  currency-bot-data:

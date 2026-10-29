@@ -7,8 +7,10 @@ requires-python = ">=3.14"
 dependencies = [
     "balethon>=1.1.0",
     "httpx>=0.28.1",
+    "matplotlib>=3.11,<4",
     "pydantic>=2.13.4",
     "python-dotenv>=1.2.2",
-    "python-telegram-bot>=22.7",
+    "python-socks[asyncio]>=2.4",
     "requests>=2.34.2",
+    "telethon>=1.45,<2",
 ]
