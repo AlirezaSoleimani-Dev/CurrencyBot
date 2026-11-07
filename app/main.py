@@ -6,10 +6,12 @@ from urllib.parse import parse_qs, urlparse
 
 from telethon import TelegramClient, connection, events
 
+from app.bot.alert_monitor import monitor_price_alerts
 from app.bot.handlers import CurrencyBotHandlers
 from app.config import Config
 from app.core.logging_config import setup_logging
 from app.currency.api_client import IranMarketDataProvider
+from app.currency.alert_store import SQLiteAlertStore
 from app.currency.formatter import CurrencyFormatter
 from app.currency.history_cache import SQLiteHistoryCache
 from app.currency.service import CurrencyService
@@ -69,11 +71,13 @@ async def main():
 
     currency_provider = IranMarketDataProvider()
     history_cache = SQLiteHistoryCache(Config.HISTORY_CACHE_DB, currency_provider)
+    alert_store = SQLiteAlertStore(Config.HISTORY_CACHE_DB)
     currency_service = CurrencyService(currency_provider)
     handlers = CurrencyBotHandlers(
         currency_service=currency_service,
         currency_formatter=CurrencyFormatter(),
         history_cache=history_cache,
+        alert_store=alert_store,
     )
 
     client = TelegramClient(
@@ -92,11 +96,22 @@ async def main():
         events.NewMessage(incoming=True),
     )
 
+    alert_task = None
     try:
         await client.start(bot_token=Config.TELEGRAM_BOT_TOKEN)
         logger.info("Bot is connected through the MTProto proxy")
+        alert_task = asyncio.create_task(
+            monitor_price_alerts(
+                client,
+                alert_store,
+                currency_service,
+            )
+        )
         await client.run_until_disconnected()
     finally:
+        if alert_task:
+            alert_task.cancel()
+            await asyncio.gather(alert_task, return_exceptions=True)
         await client.disconnect()
 
 
