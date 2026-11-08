@@ -1,6 +1,6 @@
 # Currency Bot
 
-This Telegram bot connects through an MTProto proxy and fetches Iran free-market prices for the US dollar, 18K gold, the euro, and the British pound. It uses the public [Iran Market Data](https://iran-market.github.io/) JSON feed, which requires no API key and publishes prices in toman, with updates about every 30 minutes. The bot can send one-, three-, and six-month price charts, seven-day estimates, and one-shot price alerts backed by SQLite.
+This Telegram bot connects through an MTProto proxy and fetches Iran free-market prices for the US dollar, 18K gold, the euro, and the British pound. It uses the public [NerkhAra API](https://nerkhara.com/en/api/), which requires no API key, publishes prices in toman, and refreshes about every 10 minutes. Price messages credit NerkhAra and show the time each figure was read. The bot can send one-, three-, and six-month price charts, seven-day estimates, and one-shot price alerts backed by SQLite.
 
 ## Run with Docker Compose
 

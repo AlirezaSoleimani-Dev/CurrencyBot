@@ -160,6 +160,10 @@ class CurrencyBotHandlers:
                     f"{forecast['backtest_count']} rolling forecasts"
                     "\nThis is an estimate, not a guaranteed future price."
                 )
+                message += (
+                    f"\nSource: {self.currency_service.provider.ATTRIBUTION}"
+                    f"\nHistory read: {history['refreshed_at']} Tehran time"
+                )
                 if history["stale"]:
                     message += "\nUsing cached historical data; refresh failed."
                 await event.respond(message)
@@ -197,7 +201,8 @@ class CurrencyBotHandlers:
                 chart.name = f"price-chart-{days}-days.png"
                 caption = (
                     f"{title}\n{days}-day price history in toman\n"
-                    f"Cache refreshed: {history['refreshed_at']} Tehran time"
+                    f"History read: {history['refreshed_at']} Tehran time\n"
+                    f"Source: {self.currency_service.provider.ATTRIBUTION}"
                 )
                 if history["stale"]:
                     caption += "\nShowing cached data; refresh failed."

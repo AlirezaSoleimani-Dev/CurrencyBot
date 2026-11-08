@@ -10,7 +10,7 @@ from app.bot.alert_monitor import monitor_price_alerts
 from app.bot.handlers import CurrencyBotHandlers
 from app.config import Config
 from app.core.logging_config import setup_logging
-from app.currency.api_client import IranMarketDataProvider
+from app.currency.api_client import NerkhAraProvider
 from app.currency.alert_store import SQLiteAlertStore
 from app.currency.formatter import CurrencyFormatter
 from app.currency.history_cache import SQLiteHistoryCache
@@ -69,7 +69,7 @@ async def main():
             "MT_PROXY_HOST, MT_PROXY_PORT, and MT_PROXY_SECRET"
         )
 
-    currency_provider = IranMarketDataProvider()
+    currency_provider = NerkhAraProvider()
     history_cache = SQLiteHistoryCache(Config.HISTORY_CACHE_DB, currency_provider)
     alert_store = SQLiteAlertStore(Config.HISTORY_CACHE_DB)
     currency_service = CurrencyService(currency_provider)

@@ -13,6 +13,8 @@ class CurrencyFormatter:
         ]
         if result.get("stale"):
             lines.append("توجه: دادهٔ منتشرشده ممکن است قدیمی باشد.")
+        if result.get("source"):
+            lines.append(f"منبع: {result['source']}")
         lines.append("------------------------------")
         for currency, quote in result["prices"].items():
             unit = "تومان"

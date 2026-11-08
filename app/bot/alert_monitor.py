@@ -39,7 +39,9 @@ async def monitor_price_alerts(
                         message = (
                             f"🔔 Price alert: {alert['title']} is now {direction} your target.\n"
                             f"Target: {alert['target']:,.0f} toman\n"
-                            f"Current price: {current:,.0f} toman"
+                            f"Current price: {current:,.0f} toman\n"
+                            f"Read: {result.get('last_updated', 'Unknown')} UTC\n"
+                            f"Source: {result.get('source', 'Unknown')}"
                         )
                         try:
                             await client.send_message(alert["chat_id"], message)

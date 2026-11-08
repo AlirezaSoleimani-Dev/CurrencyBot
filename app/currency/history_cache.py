@@ -6,7 +6,7 @@ from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from app.currency.api_client import IranMarketDataProvider
+from app.currency.api_client import NerkhAraProvider
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +18,7 @@ class SQLiteHistoryCache:
     RETAIN_DAYS = 180
     TEHRAN = ZoneInfo("Asia/Tehran")
 
-    def __init__(self, database_path: str, provider: IranMarketDataProvider):
+    def __init__(self, database_path: str, provider: NerkhAraProvider):
         self.database_path = Path(database_path)
         self.database_path.parent.mkdir(parents=True, exist_ok=True)
         self.provider = provider
