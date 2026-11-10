@@ -8,12 +8,15 @@ ENV PYTHONUNBUFFERED=1 \
     UV_CONCURRENT_DOWNLOADS=4 \
     UV_LINK_MODE=copy
 
+
+ENV UV_DEFAULT_INDEX=https://mirror-pypi.pkg.shecan.ir/simple/
+
 WORKDIR /app
 
 # Install the locked dependencies. Keeping the dependency files in their own
 # layer lets Docker reuse this layer when only application code changes.
 COPY pyproject.toml uv.lock ./
-RUN pip install --no-cache-dir --timeout=300 --retries=10 uv
+RUN pip install --index-url https://mirror-pypi.pkg.shecan.ir/simple/ uv
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev --no-install-project
 
